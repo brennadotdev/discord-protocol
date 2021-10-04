@@ -2,7 +2,13 @@
 {
     public class ExampleCommandRequest
     {
-        public int? OptionalInt { get; set; }
-        public double RequiredDouble { get; set; }
+        public string String { get; set; }
+        public int Int { get; set; }
+        public bool Bool { get; set; }
+        public double Number { get; set; }
+        public string? OptString { get; set; }
+        public int? OptInt { get; set; }
+        public bool? OptBool { get; set; }
+        public double? OptNumber { get; set; }
     }
 }

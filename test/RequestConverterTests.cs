@@ -12,16 +12,28 @@ namespace Discord.Protocol.Tests
         {
             string requestBody =
                 "{\"data\":{\"id\":\"12345\",\"name\":\"test\",\"options\":[" +
-                "{\"name\":\"requireddouble\",\"type\":10,\"value\":3.14}," +
-                "{\"name\":\"optionalint\",\"type\":4,\"value\":314}" +
+                "{\"name\":\"string\",\"type\":3,\"value\":\"value\"}," +
+                "{\"name\":\"int\",\"type\":4,\"value\":314}," +
+                "{\"name\":\"bool\",\"type\":5,\"value\":true}," +
+                "{\"name\":\"number\",\"type\":10,\"value\":3.14}," +
+                "{\"name\":\"optstring\",\"type\":3,\"value\":\"value\"}," +
+                "{\"name\":\"optint\",\"type\":4,\"value\":314}," +
+                "{\"name\":\"optbool\",\"type\":5,\"value\":true}," +
+                "{\"name\":\"optnumber\",\"type\":10,\"value\":3.14}" +
                 "],\"type\":1}}";
 
             InteractionRequest interactionRequest = JsonSerializer.Deserialize<InteractionRequest>(requestBody);
 
             ExampleCommandRequest commandRequest = interactionRequest.ConvertRequest<ExampleCommandRequest>();
 
-            Assert.Equal(3.14, commandRequest.RequiredDouble);
-            Assert.Equal(314, commandRequest.OptionalInt);
+            Assert.Equal("value", commandRequest.String);
+            Assert.Equal(314, commandRequest.Int);
+            Assert.True(commandRequest.Bool);
+            Assert.Equal(3.14, commandRequest.Number);
+            Assert.Equal("value", commandRequest.OptString);
+            Assert.Equal(314, commandRequest.OptInt);
+            Assert.True(commandRequest.OptBool);
+            Assert.Equal(3.14, commandRequest.OptNumber);
         }
         
         [Fact]
@@ -29,15 +41,24 @@ namespace Discord.Protocol.Tests
         {
             string requestBody =
                 "{\"data\":{\"id\":\"12345\",\"name\":\"test\",\"options\":[" +
-                "{\"name\":\"requireddouble\",\"type\":10,\"value\":3.14}" +
+                "{\"name\":\"string\",\"type\":3,\"value\":\"value\"}," +
+                "{\"name\":\"int\",\"type\":4,\"value\":314}," +
+                "{\"name\":\"bool\",\"type\":5,\"value\":true}," +
+                "{\"name\":\"number\",\"type\":10,\"value\":3.14}" +
                 "],\"type\":1}}";
 
             InteractionRequest interactionRequest = JsonSerializer.Deserialize<InteractionRequest>(requestBody);
 
             ExampleCommandRequest commandRequest = interactionRequest.ConvertRequest<ExampleCommandRequest>();
 
-            Assert.Equal(3.14, commandRequest.RequiredDouble);
-            Assert.Null(commandRequest.OptionalInt);
+            Assert.Equal("value", commandRequest.String);
+            Assert.Equal(314, commandRequest.Int);
+            Assert.True(commandRequest.Bool);
+            Assert.Equal(3.14, commandRequest.Number);
+            Assert.Null(commandRequest.OptString);
+            Assert.Null( commandRequest.OptInt);
+            Assert.Null(commandRequest.OptBool);
+            Assert.Null(commandRequest.OptNumber);
         }
 
         [Fact]

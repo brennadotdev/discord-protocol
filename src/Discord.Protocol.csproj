@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <PackageId>Discord.Protocol</PackageId>
-        <Version>1.4.0</Version>
+        <Version>1.4.1</Version>
         <Authors>@brennadotdev</Authors>
         <PackageDescription>Discord protocol schema in dotnet.</PackageDescription>
         <RepositoryUrl>https://github.com/brennadotdev/discord-protocol</RepositoryUrl>

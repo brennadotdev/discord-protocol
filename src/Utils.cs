@@ -83,7 +83,7 @@ namespace Discord.Protocol
                         case ApplicationCommandOptionType.Integer:
                         case ApplicationCommandOptionType.Boolean:
                         case ApplicationCommandOptionType.Number:
-                            jObject[o.Name] = new JRaw(o.Value);
+                            jObject[o.Name] = new JValue(o.Value.ToString());
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
