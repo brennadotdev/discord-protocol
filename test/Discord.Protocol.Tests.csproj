@@ -12,6 +12,6 @@
         </PackageReference>
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Discord.Protocol.csproj" />
+      <ProjectReference Include="..\src\Discord.Protocol.csproj" />
     </ItemGroup>
 </Project>
