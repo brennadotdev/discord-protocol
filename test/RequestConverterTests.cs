@@ -78,6 +78,23 @@ namespace Discord.Protocol.Tests
         }
 
         [Fact]
+        public void ConvertSubCommandRequestOnlyOptionalProperties()
+        {
+            string requestBody =
+                "{\"data\":{\"id\":\"12345\",\"name\":\"test\",\"options\":[" +
+                "{\"name\":\"subcommandopt\",\"type\":1" +
+                "}],\"type\":1}}";
+
+            InteractionRequest interactionRequest = JsonSerializer.Deserialize<InteractionRequest>(requestBody);
+
+            ExampleSubCommandRequest commandRequest = interactionRequest.ConvertRequest<ExampleSubCommandRequest>();
+
+            Assert.NotNull(commandRequest.SubCommandOpt);
+            Assert.Null(commandRequest.SubCommandA);
+            Assert.Null(commandRequest.SubCommandB);
+        }
+
+        [Fact]
         public void ConvertSubCommandGroupRequest()
         {
             string requestBody =

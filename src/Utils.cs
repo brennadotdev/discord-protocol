@@ -74,7 +74,10 @@ namespace Discord.Protocol
                     {
                         case ApplicationCommandOptionType.SubCommand:
                         case ApplicationCommandOptionType.SubCommandGroup:
-                            jObject[o.Name] = ParseOptions(o.Options);
+                            if (o.Options == null)
+                                jObject[o.Name] = new JObject();
+                            else
+                                jObject[o.Name] = ParseOptions(o.Options);
                             break;
                         case ApplicationCommandOptionType.String:
                         case ApplicationCommandOptionType.Integer:

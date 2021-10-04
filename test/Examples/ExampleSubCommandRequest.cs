@@ -4,5 +4,6 @@
     {
         public SubCommandA SubCommandA { get; set; }
         public SubCommandB SubCommandB { get; set; }
+        public SubCommandOnlyOptionalProperties SubCommandOpt { get; set; }
     }
 }
