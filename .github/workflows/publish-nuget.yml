@@ -20,8 +20,11 @@ jobs:
           source-url: https://nuget.pkg.github.com/brennadotdev/index.json
         env:
           NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - run: dotnet build ./src/Discord.Protocol.csproj
-      - name: Create the package
+      - name: Build
+        run: dotnet build ./src/Discord.Protocol.csproj
+      - name: Test
+        run: dotnet test ./test/Discord.Protocol.Tests.csproj
+      - name: Pack
         run: dotnet pack --configuration Release ./src/Discord.Protocol.csproj
-      - name: Publish the package to GPR
+      - name: Push
         run: dotnet nuget push ./src/bin/Release/*.nupkg
