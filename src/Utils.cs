@@ -70,6 +70,8 @@ namespace Discord.Protocol
                     return element.GetInt32();
                 case ApplicationCommandOptionType.Boolean:
                     return element.GetBoolean();
+                case ApplicationCommandOptionType.Number:
+                    return element.GetDouble();
                 default:
                     throw new ArgumentOutOfRangeException();
             }
