@@ -56,7 +56,7 @@ namespace Discord.Protocol
 
         public static T GetOptionValue<T>(this InteractionRequest request, string name)
         {
-            return (T) request.Data.Options.Single(o => o.Name == name).GetOptionValue();
+            return (T) request.Data.Options.SingleOrDefault(o => o.Name == name).GetOptionValue();
         }
 
         private static object GetOptionValue(this Option option)
