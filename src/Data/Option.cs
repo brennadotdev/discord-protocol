@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Discord.Protocol.Data
 {
@@ -12,5 +13,8 @@ namespace Discord.Protocol.Data
         
         [JsonPropertyName("value")]
         public object Value { get; set; }
+        
+        [JsonPropertyName("options")]
+        public List<Option> Options { get; set; }
     }
 }

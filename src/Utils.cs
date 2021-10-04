@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
 using Discord.Protocol.Data;
 using Discord.Protocol.Request;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Sodium;
 
 namespace Discord.Protocol
@@ -54,26 +55,39 @@ namespace Discord.Protocol
             return $"<@{member.User.Id}>";
         }
 
-        public static T GetOptionValue<T>(this InteractionRequest request, string name)
+        public static T ConvertRequest<T>(this InteractionRequest request) where T : new()
         {
-            return (T) request?.Data?.Options?.SingleOrDefault(o => o.Name == name)?.GetOptionValue();
-        }
+            if (request?.Data?.Options == null || !request.Data.Options.Any())
+                return new T();
 
-        private static object GetOptionValue(this Option option)
-        {
-            JsonElement element = (JsonElement)option.Value;
-            switch (option.Type)
-            { 
-                case ApplicationCommandOptionType.String:
-                    return element.GetString();
-                case ApplicationCommandOptionType.Integer:
-                    return element.GetInt32();
-                case ApplicationCommandOptionType.Boolean:
-                    return element.GetBoolean();
-                case ApplicationCommandOptionType.Number:
-                    return element.GetDouble();
-                default:
-                    throw new ArgumentOutOfRangeException();
+            JObject resultObject = ParseOptions(request.Data.Options);
+
+            return JsonConvert.DeserializeObject<T>(resultObject.ToString(Formatting.None));
+
+            JObject ParseOptions(List<Option> options)
+            {
+                JObject jObject = new JObject();
+
+                foreach (Option o in options)
+                {
+                    switch (o.Type)
+                    {
+                        case ApplicationCommandOptionType.SubCommand:
+                        case ApplicationCommandOptionType.SubCommandGroup:
+                            jObject[o.Name] = ParseOptions(o.Options);
+                            break;
+                        case ApplicationCommandOptionType.String:
+                        case ApplicationCommandOptionType.Integer:
+                        case ApplicationCommandOptionType.Boolean:
+                        case ApplicationCommandOptionType.Number:
+                            jObject[o.Name] = new JRaw(o.Value);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+
+                return jObject;
             }
         }
     }
